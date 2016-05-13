@@ -1,0 +1,37 @@
+{
+  "name": "angular_crud",
+  "version": "0.1.0",
+  "description": "A simple CRUD interface for a two resource REST API",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hollislau/angular_crud.git"
+  },
+  "author": {
+    "name": "Hollis Lau",
+    "email": "hollislau@hotmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hollislau/angular_crud/issues"
+  },
+  "homepage": "https://github.com/hollislau/angular_crud#readme",
+  "devDependencies": {
+    "angular": "^1.5.5",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-nodemon": "^2.0.7",
+    "gulp-protractor": "^2.3.0",
+    "webpack-stream": "^3.2.0"
+  },
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
