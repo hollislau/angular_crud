@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Star Trek v Star Wars</title>
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body data-ng-app="scifiApp">
+    <main>
+      <section data-ng-controller="StarTrekCtrl as startrekctrl" data-ng-init="startrekctrl.getChars()">
+        <form data-ng-submit="startrekctrl.createChar()">
+          <label for="name">Name</label>
+          <input type="text" name="name" data-ng-model="startrekctrl.newChar.name">
+          <label for="gender">Gender</label>
+          <input type="text" name="gender" data-ng-model="startrekctrl.newChar.gender">
+          <label for="rank">Rank</label>
+          <input type="text" name="rank" data-ng-model="startrekctrl.newChar.rank">
+          <label for="weapon">Weapon</label>
+          <input type="text" name="weapon" data-ng-model="startrekctrl.newChar.weapon" placeholder="Phaser">
+          <label for="power">Power</label>
+          <input type="text" name="power" data-ng-model="startrekctrl.newChar.power">
+          <label for="ship">Ship</label>
+          <input type="text" name="ship" data-ng-model="startrekctrl.newChar.ship" placeholder="Enterprise">
+
+          <button type="submit">Create</button>
+        </form>
+        <ul>
+          <li data-ng-repeat="char in startrekctrl.chars">
+            <p data-ng-if="!char.editing">{{ char.name }} | Gender: {{ char.gender }} | Rank: {{ char.rank }} | Weapon: {{ char.weapon }} | Power: {{ char.power }} | Ship: {{ char.ship }}</p>
+            <form data-ng-if="char.editing" data-ng-submit="startrekctrl.updateChar(char)">
+              <label for="name">Name</label>
+              <input type="text" name="name" data-ng-model="char.name">
+              <label for="gender">Gender</label>
+              <input type="text" name="gender" data-ng-model="char.gender">
+              <label for="rank">Rank</label>
+              <input type="text" name="rank" data-ng-model="char.rank">
+              <label for="weapon">Weapon</label>
+              <input type="text" name="weapon" data-ng-model="char.weapon" placeholder="Phaser">
+              <label for="power">Power</label>
+              <input type="text" name="power" data-ng-model="char.power">
+              <label for="ship">Ship</label>
+              <input type="text" name="ship" data-ng-model="char.ship" placeholder="Enterprise">
+
+              <button type="submit">Update</button>
+              <button data-ng-click="startrekctrl.resetChar(char)">Cancel</button>
+            </form>
+            <button data-ng-if="!char.editing" data-ng-click="startrekctrl.editChar(char)">Edit</button>
+            <button data-ng-click="startrekctrl.removeChar(char)">Delete</button>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <script src="js/main.js"></script>
+  </body>
+</html>
