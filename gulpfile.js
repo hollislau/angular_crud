@@ -4,7 +4,6 @@ const webpack = require("webpack-stream");
 const nodemon = require("gulp-nodemon");
 const mongoose = require("mongoose");
 const cp = require("child_process");
-// const exec = cp.exec;
 const protractor = require("gulp-protractor").protractor;
 const webdriverUpdate = require("gulp-protractor").webdriver_update;
 const mongoDbUri = "mongodb://localhost/scifi_client_test";
@@ -14,6 +13,12 @@ var lintServerFiles = ["gulpfile.js", "index.js", "server.js"];
 var staticFiles = ["app/**/*.html", "app/**/*.css"];
 var protractorFiles = ["test/integration/*_spec.js"];
 var children = [];
+
+function killChildProcesses() {
+  children.forEach((child) => {
+    child.kill("SIGTERM");
+  });
+}
 
 gulp.task("lintClient", () => {
   return gulp.src(lintClientFiles)
@@ -47,12 +52,12 @@ gulp.task("static:dev", () => {
 
 gulp.task("webdriverUpdate", webdriverUpdate);
 
-gulp.task("mongoServer:test", (done) => {
+gulp.task("mongoDb:test", (done) => {
   children.push(cp.spawn("mongod"));
   setTimeout(done, 1000);
 });
 
-gulp.task("dropTestDb", ["mongoServer:test"], (done) => {
+gulp.task("dropTestDb", ["mongoDb:test"], (done) => {
   mongoose.connect(mongoDbUri, () => {
     mongoose.connection.db.dropDatabase(() => {
       mongoose.disconnect(done);
@@ -74,14 +79,10 @@ gulp.task("protractor:test", ["build:dev", "webdriverUpdate", "servers:test"], (
       configFile: "test/integration/config.js"
     }))
     .on("end", () => {
-      children.forEach((child) => {
-        child.kill("SIGTERM");
-      });
+      killChildProcesses();
     })
     .on("error", () => {
-      children.forEach((child) => {
-        child.kill("SIGTERM");
-      });
+      killChildProcesses();
     });
 });
 
