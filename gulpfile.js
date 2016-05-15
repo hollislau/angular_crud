@@ -4,6 +4,7 @@ const webpack = require("webpack-stream");
 const nodemon = require("gulp-nodemon");
 const mongoose = require("mongoose");
 const cp = require("child_process");
+const KarmaServer = require("karma").Server;
 const protractor = require("gulp-protractor").protractor;
 const webdriverUpdate = require("gulp-protractor").webdriver_update;
 const mongoDbUri = "mongodb://localhost/scifi_client_test";
@@ -45,9 +46,21 @@ gulp.task("webpack:dev", () => {
     .pipe(gulp.dest("build/js"));
 });
 
-gulp.task("static:dev", () => {
-  return gulp.src(staticFiles)
-    .pipe(gulp.dest("build"));
+gulp.task("webpack:test", () => {
+  return gulp.src("test/unit/test_entry.js")
+    .pipe(webpack({
+      devtool: "source-map",
+      output: {
+        filename: "main.js"
+      }
+    }))
+    .pipe(gulp.dest("test"));
+});
+
+gulp.task("karma:test", ["webpack:test"], (done) => {
+  new KarmaServer({
+    configFile: __dirname + "/test/unit/karma.config.js"
+  }, done).start();
 });
 
 gulp.task("webdriverUpdate", webdriverUpdate);
@@ -76,7 +89,7 @@ gulp.task("servers:test", ["dropTestDb"], (done) => {
 gulp.task("protractor:test", ["build:dev", "webdriverUpdate", "servers:test"], () => {
   return gulp.src(protractorFiles)
     .pipe(protractor({
-      configFile: "test/integration/config.js"
+      configFile: "test/integration/protractor.config.js"
     }))
     .on("end", () => {
       killChildProcesses();
@@ -84,6 +97,11 @@ gulp.task("protractor:test", ["build:dev", "webdriverUpdate", "servers:test"], (
     .on("error", () => {
       killChildProcesses();
     });
+});
+
+gulp.task("static:dev", () => {
+  return gulp.src(staticFiles)
+    .pipe(gulp.dest("build"));
 });
 
 gulp.task("develop", () => {
@@ -101,5 +119,5 @@ gulp.task("develop", () => {
 
 gulp.task("lint", ["lintClient", "lintServer"]);
 gulp.task("build:dev", ["webpack:dev", "static:dev"]);
-gulp.task("test", ["protractor:test"]);
+gulp.task("test", ["karma:test", "protractor:test"]);
 gulp.task("default", ["lint", "test"]);
