@@ -44,6 +44,18 @@ describe("Scifi client server", () => {
     });
   });
 
+  it("removes a Star Trek character", () => {
+    var charLi;
+    var charDelBtn;
+
+    browser.get("http://localhost:5000");
+    charLi = element(by.repeater("char in startrekctrl.chars").row(0));
+    charDelBtn = charLi.element(by.buttonText("Delete"));
+    charDelBtn.click();
+    charLi = element(by.repeater("char in startrekctrl.chars").row(0));
+    expect(charLi.isPresent()).toBe(false);
+  });
+
   it("creates a Star Wars character", () => {
     var charEl;
 
@@ -85,5 +97,17 @@ describe("Scifi client server", () => {
         "Chewbacca | Gender: M | Weapon: Bowcaster | Power: 9 | Planet: Kashyyyk"
       );
     });
+  });
+
+  it("removes a Star Wars character", () => {
+    var charLi;
+    var charDelBtn;
+
+    browser.get("http://localhost:5000");
+    charLi = element(by.repeater("char in starwarsctrl.chars").row(0));
+    charDelBtn = charLi.element(by.buttonText("Delete"));
+    charDelBtn.click();
+    charLi = element(by.repeater("char in starwarsctrl.chars").row(0));
+    expect(charLi.isPresent()).toBe(false);
   });
 });
