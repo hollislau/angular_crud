@@ -2,9 +2,12 @@ const gulp = require("gulp");
 const eslint = require("gulp-eslint");
 const webpack = require("webpack-stream");
 const nodemon = require("gulp-nodemon");
+const mongoose = require("mongoose");
 const cp = require("child_process");
+// const exec = cp.exec;
 const protractor = require("gulp-protractor").protractor;
 const webdriverUpdate = require("gulp-protractor").webdriver_update;
+const mongoDbUri = "mongodb://localhost/scifi_client_test";
 
 var lintClientFiles = ["app/**/*.js", "test/integration/**/*.js"];
 var lintServerFiles = ["gulpfile.js", "index.js", "server.js"];
@@ -44,8 +47,25 @@ gulp.task("static:dev", () => {
 
 gulp.task("webdriverUpdate", webdriverUpdate);
 
-gulp.task("servers:test", () => {
-  children.push(cp.fork("server.js"));
+gulp.task("mongoServer:test", (done) => {
+  children.push(cp.spawn("mongod"));
+  setTimeout(done, 1000);
+});
+
+gulp.task("dropTestDb", ["mongoServer:test"], (done) => {
+  mongoose.connect(mongoDbUri, () => {
+    mongoose.connection.db.dropDatabase(() => {
+      mongoose.disconnect(done);
+    });
+  });
+});
+
+gulp.task("servers:test", ["dropTestDb"], (done) => {
+  children.push(cp.fork("server"));
+  children.push(cp.fork("../../week_3/rest_api/hollis_lau/server", [], {
+    env: { MONGODB_URI: mongoDbUri }
+  }));
+  setTimeout(done, 1000);
 });
 
 gulp.task("protractor:test", ["build:dev", "webdriverUpdate", "servers:test"], () => {
@@ -54,6 +74,11 @@ gulp.task("protractor:test", ["build:dev", "webdriverUpdate", "servers:test"], (
       configFile: "test/integration/config.js"
     }))
     .on("end", () => {
+      children.forEach((child) => {
+        child.kill("SIGTERM");
+      });
+    })
+    .on("error", () => {
       children.forEach((child) => {
         child.kill("SIGTERM");
       });
