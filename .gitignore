@@ -44,3 +44,5 @@ build
 
 # Files #
 #########
+test/main.js
+test/main.js.map
