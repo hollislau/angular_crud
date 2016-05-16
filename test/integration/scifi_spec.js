@@ -12,7 +12,7 @@ describe("Scifi client", () => {
     element(by.id("create-st-char")).click();
     charSpan = element(by.repeater("char in startrekctrl.chars").row(0).column("char.name"));
     charSpan.getText().then((text) => {
-      expect(text).toEqual(
+      expect(text).toBe(
         "Worf | Gender: M | Rank: Lt. Commander | Weapon: Battleth | Power: 9 | Ship: Defiant"
       );
     });
@@ -30,7 +30,7 @@ describe("Scifi client", () => {
     element(by.id("create-sw-char")).click();
     charEl = element(by.repeater("char in starwarsctrl.chars").row(0).column("char.name"));
     charEl.getText().then((text) => {
-      expect(text).toEqual(
+      expect(text).toBe(
         "Leia Organa | Gender: F | Weapon: Sporting Blaster Pistol | Power: 7 | Planet: Alderaan"
       );
     });
@@ -40,7 +40,7 @@ describe("Scifi client", () => {
     browser.get("http://localhost:5000");
     element(by.id("fight")).click();
     element(by.binding("battlectrl.result")).getText().then((text) => {
-      expect(text).toEqual("Worf defeats Leia Organa with a Battleth!");
+      expect(text).toBe("Worf defeats Leia Organa with a Battleth!");
     });
   });
 
@@ -64,7 +64,7 @@ describe("Scifi client", () => {
     charUpdateBtn.click();
     charEl = element(by.repeater("char in startrekctrl.chars").row(0).column("char.name"));
     charEl.getText().then((text) => {
-      expect(text).toEqual(
+      expect(text).toBe(
         "Deanna Troi | Gender: F | Rank: Commander | Weapon: Phaser | Power: 5 | Ship: Enterprise"
       );
     });
@@ -89,7 +89,7 @@ describe("Scifi client", () => {
     charUpdateBtn.click();
     charEl = element(by.repeater("char in starwarsctrl.chars").row(0).column("char.name"));
     charEl.getText().then((text) => {
-      expect(text).toEqual(
+      expect(text).toBe(
         "Chewbacca | Gender: M | Weapon: Bowcaster | Power: 9 | Planet: Kashyyyk"
       );
     });
@@ -115,7 +115,7 @@ describe("Scifi client", () => {
     charCancelBtn.click();
     charEl = element(by.repeater("char in startrekctrl.chars").row(0).column("char.name"));
     charEl.getText().then((text) => {
-      expect(text).toEqual(
+      expect(text).toBe(
         "Deanna Troi | Gender: F | Rank: Commander | Weapon: Phaser | Power: 5 | Ship: Enterprise"
       );
     });
@@ -140,7 +140,7 @@ describe("Scifi client", () => {
     charCancelBtn.click();
     charEl = element(by.repeater("char in starwarsctrl.chars").row(0).column("char.name"));
     charEl.getText().then((text) => {
-      expect(text).toEqual(
+      expect(text).toBe(
         "Chewbacca | Gender: M | Weapon: Bowcaster | Power: 9 | Planet: Kashyyyk"
       );
     });
@@ -174,7 +174,7 @@ describe("Scifi client", () => {
     browser.get("http://localhost:5000");
     element(by.id("fight")).click();
     element(by.binding("battlectrl.result")).getText().then((text) => {
-      expect(text).toEqual("Please add at least one Star Trek and one Star Wars character!");
+      expect(text).toBe("Please add at least one Star Trek and one Star Wars character!");
     });
   });
 });
