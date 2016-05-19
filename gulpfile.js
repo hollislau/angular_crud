@@ -14,6 +14,9 @@ var lintServerFiles = ["gulpfile.js", "index.js", "server.js"];
 var staticFiles = ["app/**/*.html", "app/**/*.css"];
 var protractorFiles = ["test/integration/*_spec.js"];
 var children = [];
+var flagIndex = process.argv.indexOf("--apipath");
+var apiServerPath = flagIndex >= 2 ? process.argv[flagIndex + 1] : false;
+var protractorTask = apiServerPath ? "protractor:test" : "protractorError";
 
 function killChildProcesses() {
   children.forEach((child) => {
@@ -63,6 +66,12 @@ gulp.task("karma:test", ["webpack:test"], (done) => {
   }, done).start();
 });
 
+gulp.task("protractorError", () => {
+  process.stderr.write(
+    "Protractor: Provide command line arguments for API server path '--apipath [path]'\n"
+  );
+});
+
 gulp.task("webdriverUpdate", webdriverUpdate);
 
 gulp.task("mongoDb:test", (done) => {
@@ -80,7 +89,7 @@ gulp.task("dropTestDb", ["mongoDb:test"], (done) => {
 
 gulp.task("servers:test", ["dropTestDb"], (done) => {
   children.push(cp.fork("server"));
-  children.push(cp.fork("../../week_3/rest_api/hollis_lau/server", [], {
+  children.push(cp.fork(apiServerPath, [], {
     env: { MONGODB_URI: mongoDbUri }
   }));
   setTimeout(done, 1000);
@@ -119,5 +128,5 @@ gulp.task("develop", () => {
 
 gulp.task("lint", ["lintClient", "lintServer"]);
 gulp.task("build:dev", ["webpack:dev", "static:dev"]);
-gulp.task("test", ["karma:test", "protractor:test"]);
+gulp.task("test", ["karma:test", protractorTask]);
 gulp.task("default", ["lint", "test"]);
