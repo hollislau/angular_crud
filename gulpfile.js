@@ -3,6 +3,7 @@ const eslint = require("gulp-eslint");
 const webpack = require("webpack-stream");
 const nodemon = require("gulp-nodemon");
 const mongoose = require("mongoose");
+const fs = require("fs");
 const cp = require("child_process");
 const KarmaServer = require("karma").Server;
 const protractor = require("gulp-protractor").protractor;
@@ -75,8 +76,12 @@ gulp.task("protractorError", () => {
 gulp.task("webdriverUpdate", webdriverUpdate);
 
 gulp.task("mongoDb:test", (done) => {
-  children.push(cp.spawn("mongod"));
-  setTimeout(done, 1000);
+  fs.access("db", fs.W_OK, (err) => {
+    if (err) fs.mkdirSync("db");
+
+    children.push(cp.spawn("mongod", ["--dbpath=./db"]));
+    setTimeout(done, 1000);
+  });
 });
 
 gulp.task("dropTestDb", ["mongoDb:test"], (done) => {
