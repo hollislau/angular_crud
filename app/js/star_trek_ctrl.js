@@ -27,7 +27,7 @@ scifiApp.controller("StarTrekCtrl", ["$http", function ($http) {
   };
 
   this.updateChar = (char) => {
-    char.backup = null;
+    delete char.backup;
     $http.put(baseUrl + "/" + char._id, char)
       .then(() => {
         char.editing = false;
@@ -37,6 +37,7 @@ scifiApp.controller("StarTrekCtrl", ["$http", function ($http) {
   this.resetChar = (char) => {
     angular.copy(char.backup, char);
     char.editing = false;
+    delete char.backup;
   };
 
   this.removeChar = (char) => {

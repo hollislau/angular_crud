@@ -20,12 +20,12 @@
           <label>Power <input type="text" data-ng-model="startrekctrl.newChar.power"></label>
           <label>Ship <input type="text" data-ng-model="startrekctrl.newChar.ship" placeholder="Enterprise"></label>
 
-          <button type="submit">Create</button>
+          <button id="create-st-char" type="submit">Create</button>
         </form>
         <h3>Your Collection:</h3>
-        <ul>
+        <ul id="st-char-list">
           <li data-ng-repeat="char in startrekctrl.chars">
-            <p data-ng-if="!char.editing">{{ char.name }} | Gender: {{ char.gender }} | Rank: {{ char.rank }} | Weapon: {{ char.weapon }} | Power: {{ char.power }} | Ship: {{ char.ship }}</p>
+            <span data-ng-if="!char.editing">{{ char.name }} | Gender: {{ char.gender }} | Rank: {{ char.rank }} | Weapon: {{ char.weapon }} | Power: {{ char.power }} | Ship: {{ char.ship }}</span>
             <form data-ng-if="char.editing" data-ng-submit="startrekctrl.updateChar(char)">
               <label>Name <input type="text" data-ng-model="char.name"></label>
               <label>Gender <input type="text" data-ng-model="char.gender"></label>
@@ -53,12 +53,12 @@
           <label>Power <input type="text" data-ng-model="starwarsctrl.newChar.power"></label>
           <label>Planet <input type="text" data-ng-model="starwarsctrl.newChar.planet"></label>
 
-          <button type="submit">Create</button>
+          <button id="create-sw-char" type="submit">Create</button>
         </form>
         <h3>Your Collection:</h3>
         <ul>
           <li data-ng-repeat="char in starwarsctrl.chars">
-            <p data-ng-if="!char.editing">{{ char.name }} | Gender: {{ char.gender }} | Weapon: {{ char.weapon }} | Power: {{ char.power }} | Planet: {{ char.planet }}</p>
+            <span data-ng-if="!char.editing">{{ char.name }} | Gender: {{ char.gender }} | Weapon: {{ char.weapon }} | Power: {{ char.power }} | Planet: {{ char.planet }}</span>
             <form data-ng-if="char.editing" data-ng-submit="starwarsctrl.updateChar(char)">
               <label>Name <input type="text" data-ng-model="char.name"></label>
               <label>Gender <input type="text" data-ng-model="char.gender"></label>
@@ -77,7 +77,7 @@
       <section data-ng-controller="BattleCtrl as battlectrl">
         <h2>Battle Your Characters:</h2>
         <p>{{ battlectrl.result }}</p>
-        <button data-ng-click="battlectrl.battle()">Fight!</button>
+        <button id="fight" data-ng-click="battlectrl.battle()">Fight!</button>
       </section>
     </main>
     <script src="js/main.js"></script>

@@ -2,15 +2,28 @@ const gulp = require("gulp");
 const eslint = require("gulp-eslint");
 const webpack = require("webpack-stream");
 const nodemon = require("gulp-nodemon");
+const mongoose = require("mongoose");
+const fs = require("fs");
 const cp = require("child_process");
+const KarmaServer = require("karma").Server;
 const protractor = require("gulp-protractor").protractor;
 const webdriverUpdate = require("gulp-protractor").webdriver_update;
+const mongoDbUri = "mongodb://localhost/scifi_client_test";
 
 var lintClientFiles = ["app/**/*.js", "test/integration/**/*.js"];
 var lintServerFiles = ["gulpfile.js", "index.js", "server.js"];
 var staticFiles = ["app/**/*.html", "app/**/*.css"];
 var protractorFiles = ["test/integration/*_spec.js"];
 var children = [];
+var flagIndex = process.argv.indexOf("--apipath");
+var apiServerPath = flagIndex >= 2 ? process.argv[flagIndex + 1] : false;
+var protractorTask = apiServerPath ? "protractor:test" : "protractorError";
+
+function killChildProcesses() {
+  children.forEach((child) => {
+    child.kill("SIGTERM");
+  });
+}
 
 gulp.task("lintClient", () => {
   return gulp.src(lintClientFiles)
@@ -37,27 +50,72 @@ gulp.task("webpack:dev", () => {
     .pipe(gulp.dest("build/js"));
 });
 
-gulp.task("static:dev", () => {
-  return gulp.src(staticFiles)
-    .pipe(gulp.dest("build"));
+gulp.task("webpack:test", () => {
+  return gulp.src("test/unit/test_entry.js")
+    .pipe(webpack({
+      devtool: "source-map",
+      output: {
+        filename: "main.js"
+      }
+    }))
+    .pipe(gulp.dest("test"));
+});
+
+gulp.task("karma:test", ["webpack:test"], (done) => {
+  new KarmaServer({
+    configFile: __dirname + "/test/unit/karma.config.js"
+  }, done).start();
+});
+
+gulp.task("protractorError", () => {
+  process.stderr.write(
+    "Protractor: Provide command line arguments for API server path '--apipath [path]'\n"
+  );
 });
 
 gulp.task("webdriverUpdate", webdriverUpdate);
 
-gulp.task("servers:test", () => {
-  children.push(cp.fork("server.js"));
+gulp.task("mongoDb:test", (done) => {
+  fs.access("db", fs.W_OK, (err) => {
+    if (err) fs.mkdirSync("db");
+
+    children.push(cp.spawn("mongod", ["--dbpath=./db"]));
+    setTimeout(done, 1000);
+  });
+});
+
+gulp.task("dropTestDb", ["mongoDb:test"], (done) => {
+  mongoose.connect(mongoDbUri, () => {
+    mongoose.connection.db.dropDatabase(() => {
+      mongoose.disconnect(done);
+    });
+  });
+});
+
+gulp.task("servers:test", ["dropTestDb"], (done) => {
+  children.push(cp.fork("server"));
+  children.push(cp.fork(apiServerPath, [], {
+    env: { MONGODB_URI: mongoDbUri }
+  }));
+  setTimeout(done, 1000);
 });
 
 gulp.task("protractor:test", ["build:dev", "webdriverUpdate", "servers:test"], () => {
   return gulp.src(protractorFiles)
     .pipe(protractor({
-      configFile: "test/integration/config.js"
+      configFile: "test/integration/protractor.config.js"
     }))
     .on("end", () => {
-      children.forEach((child) => {
-        child.kill("SIGTERM");
-      });
+      killChildProcesses();
+    })
+    .on("error", () => {
+      killChildProcesses();
     });
+});
+
+gulp.task("static:dev", () => {
+  return gulp.src(staticFiles)
+    .pipe(gulp.dest("build"));
 });
 
 gulp.task("develop", () => {
@@ -75,5 +133,5 @@ gulp.task("develop", () => {
 
 gulp.task("lint", ["lintClient", "lintServer"]);
 gulp.task("build:dev", ["webpack:dev", "static:dev"]);
-gulp.task("test", ["protractor:test"]);
+gulp.task("test", ["karma:test", protractorTask]);
 gulp.task("default", ["lint", "test"]);
