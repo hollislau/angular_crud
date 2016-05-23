@@ -1,17 +1,18 @@
 describe("Scifi client", () => {
   it("creates a Star Trek character", () => {
-    var charSpan;
+    var charEl;
+    var stCreateForm = element(by.id("st-create-form"));
 
     browser.get("http://localhost:5000");
-    element(by.model("startrekctrl.newChar.name")).sendKeys("Worf");
-    element(by.model("startrekctrl.newChar.gender")).sendKeys("M");
-    element(by.model("startrekctrl.newChar.rank")).sendKeys("Lt. Commander");
-    element(by.model("startrekctrl.newChar.weapon")).sendKeys("Battleth");
-    element(by.model("startrekctrl.newChar.power")).sendKeys("9");
-    element(by.model("startrekctrl.newChar.ship")).sendKeys("Defiant");
-    element(by.id("create-st-char")).click();
-    charSpan = element(by.repeater("char in startrekctrl.chars").row(0).column("char.name"));
-    charSpan.getText().then((text) => {
+    stCreateForm.element(by.model("stchar.name")).sendKeys("Worf");
+    stCreateForm.element(by.model("stchar.gender")).sendKeys("M");
+    stCreateForm.element(by.model("stchar.rank")).sendKeys("Lt. Commander");
+    stCreateForm.element(by.model("stchar.weapon")).sendKeys("Battleth");
+    stCreateForm.element(by.model("stchar.power")).sendKeys("9");
+    stCreateForm.element(by.model("stchar.ship")).sendKeys("Defiant");
+    stCreateForm.element(by.buttonText("Create")).click();
+    charEl = element(by.repeater("char in startrekctrl.chars").row(0).column("char.name"));
+    charEl.getText().then((text) => {
       expect(text).toBe(
         "Worf | Gender: M | Rank: Lt. Commander | Weapon: Battleth | Power: 9 | Ship: Defiant"
       );
@@ -20,14 +21,15 @@ describe("Scifi client", () => {
 
   it("creates a Star Wars character", () => {
     var charEl;
+    var swCreateForm = element(by.id("sw-create-form"));
 
     browser.get("http://localhost:5000");
-    element(by.model("starwarsctrl.newChar.name")).sendKeys("Leia Organa");
-    element(by.model("starwarsctrl.newChar.gender")).sendKeys("F");
-    element(by.model("starwarsctrl.newChar.weapon")).sendKeys("Sporting Blaster Pistol");
-    element(by.model("starwarsctrl.newChar.power")).sendKeys("7");
-    element(by.model("starwarsctrl.newChar.planet")).sendKeys("Alderaan");
-    element(by.id("create-sw-char")).click();
+    swCreateForm.element(by.model("swchar.name")).sendKeys("Leia Organa");
+    swCreateForm.element(by.model("swchar.gender")).sendKeys("F");
+    swCreateForm.element(by.model("swchar.weapon")).sendKeys("Sporting Blaster Pistol");
+    swCreateForm.element(by.model("swchar.power")).sendKeys("7");
+    swCreateForm.element(by.model("swchar.planet")).sendKeys("Alderaan");
+    swCreateForm.element(by.buttonText("Create")).click();
     charEl = element(by.repeater("char in starwarsctrl.chars").row(0).column("char.name"));
     charEl.getText().then((text) => {
       expect(text).toBe(
@@ -54,12 +56,12 @@ describe("Scifi client", () => {
     charLi = element(by.repeater("char in startrekctrl.chars").row(0));
     charEditBtn = charLi.element(by.buttonText("Edit"));
     charEditBtn.click();
-    element(by.model("char.name")).clear().sendKeys("Deanna Troi");
-    element(by.model("char.gender")).clear().sendKeys("F");
-    element(by.model("char.rank")).clear().sendKeys("Commander");
-    element(by.model("char.weapon")).clear().sendKeys("Phaser");
-    element(by.model("char.power")).clear().sendKeys("5");
-    element(by.model("char.ship")).clear().sendKeys("Enterprise");
+    charLi.element(by.model("stchar.name")).clear().sendKeys("Deanna Troi");
+    charLi.element(by.model("stchar.gender")).clear().sendKeys("F");
+    charLi.element(by.model("stchar.rank")).clear().sendKeys("Commander");
+    charLi.element(by.model("stchar.weapon")).clear().sendKeys("Phaser");
+    charLi.element(by.model("stchar.power")).clear().sendKeys("5");
+    charLi.element(by.model("stchar.ship")).clear().sendKeys("Enterprise");
     charUpdateBtn = charLi.element(by.buttonText("Update"));
     charUpdateBtn.click();
     charEl = element(by.repeater("char in startrekctrl.chars").row(0).column("char.name"));
@@ -80,11 +82,11 @@ describe("Scifi client", () => {
     charLi = element(by.repeater("char in starwarsctrl.chars").row(0));
     charEditBtn = charLi.element(by.buttonText("Edit"));
     charEditBtn.click();
-    element(by.model("char.name")).clear().sendKeys("Chewbacca");
-    element(by.model("char.gender")).clear().sendKeys("M");
-    element(by.model("char.weapon")).clear().sendKeys("Bowcaster");
-    element(by.model("char.power")).clear().sendKeys("9");
-    element(by.model("char.planet")).clear().sendKeys("Kashyyyk");
+    charLi.element(by.model("swchar.name")).clear().sendKeys("Chewbacca");
+    charLi.element(by.model("swchar.gender")).clear().sendKeys("M");
+    charLi.element(by.model("swchar.weapon")).clear().sendKeys("Bowcaster");
+    charLi.element(by.model("swchar.power")).clear().sendKeys("9");
+    charLi.element(by.model("swchar.planet")).clear().sendKeys("Kashyyyk");
     charUpdateBtn = charLi.element(by.buttonText("Update"));
     charUpdateBtn.click();
     charEl = element(by.repeater("char in starwarsctrl.chars").row(0).column("char.name"));
@@ -105,12 +107,12 @@ describe("Scifi client", () => {
     charLi = element(by.repeater("char in startrekctrl.chars").row(0));
     charEditBtn = charLi.element(by.buttonText("Edit"));
     charEditBtn.click();
-    element(by.model("char.name")).clear().sendKeys("Tribble");
-    element(by.model("char.gender")).clear().sendKeys("N/A");
-    element(by.model("char.rank")).clear().sendKeys("N/A");
-    element(by.model("char.weapon")).clear().sendKeys("Fur");
-    element(by.model("char.power")).clear().sendKeys("2");
-    element(by.model("char.ship")).clear().sendKeys("N/A");
+    charLi.element(by.model("stchar.name")).clear().sendKeys("Tribble");
+    charLi.element(by.model("stchar.gender")).clear().sendKeys("N/A");
+    charLi.element(by.model("stchar.rank")).clear().sendKeys("N/A");
+    charLi.element(by.model("stchar.weapon")).clear().sendKeys("Fur");
+    charLi.element(by.model("stchar.power")).clear().sendKeys("2");
+    charLi.element(by.model("stchar.ship")).clear().sendKeys("N/A");
     charCancelBtn = charLi.element(by.buttonText("Cancel"));
     charCancelBtn.click();
     charEl = element(by.repeater("char in startrekctrl.chars").row(0).column("char.name"));
@@ -131,11 +133,11 @@ describe("Scifi client", () => {
     charLi = element(by.repeater("char in starwarsctrl.chars").row(0));
     charEditBtn = charLi.element(by.buttonText("Edit"));
     charEditBtn.click();
-    element(by.model("char.name")).clear().sendKeys("Padme Amidala");
-    element(by.model("char.gender")).clear().sendKeys("F");
-    element(by.model("char.weapon")).clear().sendKeys("Blaster Pistol");
-    element(by.model("char.power")).clear().sendKeys("6");
-    element(by.model("char.planet")).clear().sendKeys("Naboo");
+    charLi.element(by.model("swchar.name")).clear().sendKeys("Padme Amidala");
+    charLi.element(by.model("swchar.gender")).clear().sendKeys("F");
+    charLi.element(by.model("swchar.weapon")).clear().sendKeys("Blaster Pistol");
+    charLi.element(by.model("swchar.power")).clear().sendKeys("6");
+    charLi.element(by.model("swchar.planet")).clear().sendKeys("Naboo");
     charCancelBtn = charLi.element(by.buttonText("Cancel"));
     charCancelBtn.click();
     charEl = element(by.repeater("char in starwarsctrl.chars").row(0).column("char.name"));

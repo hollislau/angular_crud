@@ -1,0 +1,10 @@
+<form data-ng-submit="save(swchar)">
+  <label>Name <input type="text" data-ng-model="swchar.name"></label>
+  <label>Gender <input type="text" data-ng-model="swchar.gender"></label>
+  <label>Weapon <input type="text" data-ng-model="swchar.weapon"></label>
+  <label>Power <input type="text" data-ng-model="swchar.power"></label>
+  <label>Planet <input type="text" data-ng-model="swchar.planet"></label>
+
+  <button type="submit">{{ buttonText }}</button>
+  <ng-transclude></ng-transclude>
+</form>

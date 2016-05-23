@@ -12,66 +12,58 @@
       <section data-ng-controller="StarTrekCtrl as startrekctrl" data-ng-init="startrekctrl.getChars()">
         <h2>Star Trek</h2>
         <h3>Add A Character:</h3>
-        <form data-ng-submit="startrekctrl.createChar()">
-          <label>Name <input type="text" data-ng-model="startrekctrl.newChar.name"></label>
-          <label>Gender <input type="text" data-ng-model="startrekctrl.newChar.gender"></label>
-          <label>Rank <input type="text" data-ng-model="startrekctrl.newChar.rank"></label>
-          <label>Weapon <input type="text" data-ng-model="startrekctrl.newChar.weapon" placeholder="Phaser"></label>
-          <label>Power <input type="text" data-ng-model="startrekctrl.newChar.power"></label>
-          <label>Ship <input type="text" data-ng-model="startrekctrl.newChar.ship" placeholder="Enterprise"></label>
 
-          <button id="create-st-char" type="submit">Create</button>
-        </form>
+        <star-trek-form
+          id="st-create-form"
+          data-stchar="startrekctrl.newChar"
+          data-button-text="Create"
+          data-crud-action="create">
+        </star-trek-form>
+
         <h3>Your Collection:</h3>
         <ul id="st-char-list">
-          <li data-ng-repeat="char in startrekctrl.chars">
-            <span data-ng-if="!char.editing">{{ char.name }} | Gender: {{ char.gender }} | Rank: {{ char.rank }} | Weapon: {{ char.weapon }} | Power: {{ char.power }} | Ship: {{ char.ship }}</span>
-            <form data-ng-if="char.editing" data-ng-submit="startrekctrl.updateChar(char)">
-              <label>Name <input type="text" data-ng-model="char.name"></label>
-              <label>Gender <input type="text" data-ng-model="char.gender"></label>
-              <label>Rank <input type="text" data-ng-model="char.rank"></label>
-              <label>Weapon <input type="text" data-ng-model="char.weapon" placeholder="Phaser"></label>
-              <label>Power <input type="text" data-ng-model="char.power"></label>
-              <label>Ship <input type="text" data-ng-model="char.ship" placeholder="Enterprise"></label>
 
-              <button type="submit">Update</button>
+          <star-trek-list-item data-ng-repeat="char in startrekctrl.chars" data-char="char">
+
+            <star-trek-form
+              data-ng-if="char.editing"
+              data-stchar="char"
+              data-button-text="Update"
+              data-crud-action="update">
               <button data-ng-click="startrekctrl.resetChar(char)">Cancel</button>
-            </form>
-            <button data-ng-if="!char.editing" data-ng-click="startrekctrl.editChar(char)">Edit</button>
-            <button data-ng-click="startrekctrl.removeChar(char)">Delete</button>
-          </li>
+            </star-trek-form>
+
+          </star-trek-list-item>
+
         </ul>
       </section>
 
       <section data-ng-controller="StarWarsCtrl as starwarsctrl" data-ng-init="starwarsctrl.getChars()">
         <h2>Star Wars</h2>
         <h3>Add A Character:</h3>
-        <form data-ng-submit="starwarsctrl.createChar()">
-          <label>Name <input type="text" data-ng-model="starwarsctrl.newChar.name"></label>
-          <label>Gender <input type="text" data-ng-model="starwarsctrl.newChar.gender"></label>
-          <label>Weapon <input type="text" data-ng-model="starwarsctrl.newChar.weapon"></label>
-          <label>Power <input type="text" data-ng-model="starwarsctrl.newChar.power"></label>
-          <label>Planet <input type="text" data-ng-model="starwarsctrl.newChar.planet"></label>
 
-          <button id="create-sw-char" type="submit">Create</button>
-        </form>
+        <star-wars-form
+          id="sw-create-form"
+          data-swchar="starwarsctrl.newChar"
+          data-button-text="Create"
+          data-crud-action="create">
+        </star-wars-form>
+
         <h3>Your Collection:</h3>
         <ul>
-          <li data-ng-repeat="char in starwarsctrl.chars">
-            <span data-ng-if="!char.editing">{{ char.name }} | Gender: {{ char.gender }} | Weapon: {{ char.weapon }} | Power: {{ char.power }} | Planet: {{ char.planet }}</span>
-            <form data-ng-if="char.editing" data-ng-submit="starwarsctrl.updateChar(char)">
-              <label>Name <input type="text" data-ng-model="char.name"></label>
-              <label>Gender <input type="text" data-ng-model="char.gender"></label>
-              <label>Weapon <input type="text" data-ng-model="char.weapon"></label>
-              <label>Power <input type="text" data-ng-model="char.power"></label>
-              <label>Planet <input type="text" data-ng-model="char.planet"></label>
+          
+          <star-wars-list-item data-ng-repeat="char in starwarsctrl.chars" data-char="char">
 
-              <button type="submit">Update</button>
+            <star-wars-form
+              data-ng-if="char.editing"
+              data-swchar="char"
+              data-button-text="Update"
+              data-crud-action="update">
               <button data-ng-click="starwarsctrl.resetChar(char)">Cancel</button>
-            </form>
-            <button data-ng-if="!char.editing" data-ng-click="starwarsctrl.editChar(char)">Edit</button>
-            <button data-ng-click="starwarsctrl.removeChar(char)">Delete</button>
-          </li>
+            </star-wars-form>
+
+          </star-wars-list-item>
+
         </ul>
       </section>
       <section data-ng-controller="BattleCtrl as battlectrl">

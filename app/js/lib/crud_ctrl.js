@@ -1,19 +1,19 @@
-const handleError = require("../../lib").handleError;
-const baseUrl = require("../../config").baseUrl;
+const handleError = require("./handle_error");
+const baseUrl = require("../config").baseUrl;
 
-module.exports = function (app, angular) {
-  app.controller("StarWarsCtrl", ["$http", function ($http) {
+module.exports = function (app, angular, ctrl, path) {
+  app.controller(ctrl, ["$http", function ($http) {
     this.chars = [];
 
     this.getChars = () => {
-      $http.get(baseUrl + "/starwarschars")
+      $http.get(baseUrl + path)
       .then((res) => {
         this.chars = res.data;
       }, handleError.bind(this));
     };
 
     this.createChar = () => {
-      $http.post(baseUrl + "/starwarschars", this.newChar)
+      $http.post(baseUrl + path, this.newChar)
       .then((res) => {
         this.chars.push(res.data);
         this.newChar = null;
@@ -27,7 +27,7 @@ module.exports = function (app, angular) {
 
     this.updateChar = (char) => {
       delete char.backup;
-      $http.put(baseUrl + "/starwarschars/" + char._id, char)
+      $http.put(baseUrl + path + "/" + char._id, char)
       .then(() => {
         char.editing = false;
       }, handleError.bind(this));
@@ -40,7 +40,7 @@ module.exports = function (app, angular) {
     };
 
     this.removeChar = (char) => {
-      $http.delete(baseUrl + "/starwarschars/" + char._id)
+      $http.delete(baseUrl + path + "/" + char._id)
       .then(() => {
         this.chars.splice(this.chars.indexOf(char), 1);
       }, handleError.bind(this));

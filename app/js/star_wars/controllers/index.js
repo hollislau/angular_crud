@@ -1,3 +1,3 @@
 module.exports = function (app, angular) {
-  require("./star_wars_ctrl")(app, angular);
+  require("../../lib").crudCtrl(app, angular, "StarWarsCtrl", "/starwarschars");
 };

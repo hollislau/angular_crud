@@ -1,0 +1,8 @@
+<li>
+  <span data-ng-if="!char.editing">{{ char.name }} | Gender: {{ char.gender }} | Weapon: {{ char.weapon }} | Power: {{ char.power }} | Planet: {{ char.planet }}</span>
+
+  <ng-transclude></ng-transclude>
+
+  <button data-ng-if="!char.editing" data-ng-click="edit(char)">Edit</button>
+  <button data-ng-click="remove(char)">Delete</button>
+</li>
