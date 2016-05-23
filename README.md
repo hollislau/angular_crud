@@ -1,4 +1,4 @@
-# Two-Resource REST API with Angular CRUD Interface
+# Two-Resource REST API with Angular CRUD Interface and Directives
 
 Store your favorite Star Trek and Star Wars characters in a database and randomly pit them against one another in battle!
 
