@@ -1,4 +1,8 @@
-module.exports = function (app, angular) {
-  require("./star_trek_form")(app, angular);
-  require("./star_trek_list_item")(app, angular);
+const basePath = "templates/star_trek/directives";
+
+module.exports = function (app) {
+  require("../../directives")
+    .crudForm(app, "starTrekForm", basePath + "/star_trek_form.html");
+  require("../../directives")
+    .crudListItem(app, "starTrekListItem", basePath + "/star_trek_list_item.html");
 };

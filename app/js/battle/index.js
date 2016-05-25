@@ -1,3 +1,3 @@
-module.exports = function (app, angular) {
-  require("./controllers")(app, angular);
+module.exports = function (app) {
+  require("./controllers")(app);
 };

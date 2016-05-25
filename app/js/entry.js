@@ -1,6 +1,6 @@
 const angular = require("angular");
 const scifiApp = angular.module("scifiApp", []);
 
-require("./star_trek")(scifiApp, angular);
-require("./star_wars")(scifiApp, angular);
-require("./battle")(scifiApp, angular);
+require("./star_trek")(scifiApp);
+require("./star_wars")(scifiApp);
+require("./battle")(scifiApp);

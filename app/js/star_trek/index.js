@@ -1,4 +1,4 @@
-module.exports = function (app, angular) {
-  require("./controllers")(app, angular);
-  require("./directives")(app, angular);
+module.exports = function (app) {
+  require("./controllers")(app);
+  require("./directives")(app);
 };

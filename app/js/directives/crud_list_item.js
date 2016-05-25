@@ -1,8 +1,8 @@
-module.exports = function (app) {
-  app.directive("starWarsListItem", () => {
+module.exports = function (app, name, path) {
+  app.directive(name, () => {
     return {
       restrict: "EAC",
-      templateUrl: "templates/star_wars/directives/star_wars_list_item.html",
+      templateUrl: path,
       require: "^ngController",
       replace: true,
       transclude: true,
