@@ -1,3 +1,3 @@
-module.exports = function (app, angular) {
-  require("../../lib").crudCtrl(app, angular, "StarTrekCtrl", "/startrekchars");
+module.exports = function (app) {
+  require("../../controllers").crudCtrl(app, "StarTrekCtrl", "/startrekchars");
 };

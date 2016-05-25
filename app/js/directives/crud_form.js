@@ -1,13 +1,13 @@
-module.exports = function (app) {
-  app.directive("starTrekForm", () => {
+module.exports = function (app, name, path) {
+  app.directive(name, () => {
     return {
       restrict: "EAC",
-      templateUrl: "templates/star_trek/directives/star_trek_form.html",
+      templateUrl: path,
       require: "^ngController",
       replace: true,
       transclude: true,
       scope: {
-        stchar: "=",
+        char: "=",
         buttonText: "@",
         crudAction: "@"
       },

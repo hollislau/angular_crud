@@ -15,7 +15,7 @@
 
         <star-trek-form
           id="st-create-form"
-          data-stchar="startrekctrl.newChar"
+          data-char="startrekctrl.newChar"
           data-button-text="Create"
           data-crud-action="create">
         </star-trek-form>
@@ -27,7 +27,7 @@
 
             <star-trek-form
               data-ng-if="char.editing"
-              data-stchar="char"
+              data-char="char"
               data-button-text="Update"
               data-crud-action="update">
               <button data-ng-click="startrekctrl.resetChar(char)">Cancel</button>
@@ -44,19 +44,19 @@
 
         <star-wars-form
           id="sw-create-form"
-          data-swchar="starwarsctrl.newChar"
+          data-char="starwarsctrl.newChar"
           data-button-text="Create"
           data-crud-action="create">
         </star-wars-form>
 
         <h3>Your Collection:</h3>
         <ul>
-          
+
           <star-wars-list-item data-ng-repeat="char in starwarsctrl.chars" data-char="char">
 
             <star-wars-form
               data-ng-if="char.editing"
-              data-swchar="char"
+              data-char="char"
               data-button-text="Update"
               data-crud-action="update">
               <button data-ng-click="starwarsctrl.resetChar(char)">Cancel</button>

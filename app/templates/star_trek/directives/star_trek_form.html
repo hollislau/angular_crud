@@ -1,10 +1,10 @@
-<form data-ng-submit="save(stchar)">
-  <label>Name <input type="text" data-ng-model="stchar.name"></label>
-  <label>Gender <input type="text" data-ng-model="stchar.gender"></label>
-  <label>Rank <input type="text" data-ng-model="stchar.rank"></label>
-  <label>Weapon <input type="text" data-ng-model="stchar.weapon" placeholder="Phaser"></label>
-  <label>Power <input type="text" data-ng-model="stchar.power"></label>
-  <label>Ship <input type="text" data-ng-model="stchar.ship" placeholder="Enterprise"></label>
+<form data-ng-submit="save(char)">
+  <label>Name <input type="text" data-ng-model="char.name"></label>
+  <label>Gender <input type="text" data-ng-model="char.gender"></label>
+  <label>Rank <input type="text" data-ng-model="char.rank"></label>
+  <label>Weapon <input type="text" data-ng-model="char.weapon" placeholder="Phaser"></label>
+  <label>Power <input type="text" data-ng-model="char.power"></label>
+  <label>Ship <input type="text" data-ng-model="char.ship" placeholder="Enterprise"></label>
 
   <button type="submit">{{ buttonText }}</button>
   <ng-transclude></ng-transclude>
