@@ -1,7 +1,10 @@
 const gulp = require("gulp");
 const eslint = require("gulp-eslint");
+const sass = require("gulp-sass");
+const maps = require("gulp-sourcemaps");
 const webpack = require("webpack-stream");
 const nodemon = require("gulp-nodemon");
+const livereload = require("gulp-livereload");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const cp = require("child_process");
@@ -12,7 +15,7 @@ const mongoDbUri = "mongodb://localhost/scifi_client_test";
 
 var lintClientFiles = ["app/**/*.js", "test/integration/**/*.js"];
 var lintServerFiles = ["gulpfile.js", "index.js", "server.js"];
-var staticFiles = ["app/**/*.html", "app/**/*.css"];
+var staticFiles = ["app/**/*.html"];
 var protractorFiles = ["test/integration/*_spec.js"];
 var children = [];
 var flagIndex = process.argv.indexOf("--apipath");
@@ -41,13 +44,29 @@ gulp.task("lintServer", () => {
 
 gulp.task("webpack:dev", () => {
   return gulp.src("app/js/entry.js")
-    .pipe(webpack({
-      devtool: "source-map",
-      output: {
-        filename: "main.js"
-      }
-    }))
-    .pipe(gulp.dest("build/js"));
+  .pipe(webpack({
+    devtool: "source-map",
+    output: {
+      filename: "main.js"
+    }
+  }))
+  .pipe(gulp.dest("build/js"))
+  .pipe(livereload());
+});
+
+gulp.task("sass:dev", () => {
+  return gulp.src("app/sass/main.scss")
+    .pipe(maps.init())
+    .pipe(sass().on("error", sass.logError))
+    .pipe(maps.write("./"))
+    .pipe(gulp.dest("build/css"))
+    .pipe(livereload());
+});
+
+gulp.task("static:dev", () => {
+  return gulp.src(staticFiles)
+    .pipe(gulp.dest("build"))
+    .pipe(livereload());
 });
 
 gulp.task("webpack:test", () => {
@@ -113,25 +132,24 @@ gulp.task("protractor:test", ["build:dev", "webdriverUpdate", "servers:test"], (
     });
 });
 
-gulp.task("static:dev", () => {
-  return gulp.src(staticFiles)
-    .pipe(gulp.dest("build"));
-});
-
-gulp.task("develop", () => {
+gulp.task("nodemon", () => {
   nodemon({
     script: "server.js",
-    ext: "js html css",
-    ignore: ["build/**/*", "node_modules/**/*"]
+    watch: ["server.js"]
   })
-  .on("start", ["lint", "test"])
-  .on("change", ["lint", "test"])
   .on("restart", () => {
     process.stdout.write("Server restarted!\n");
   });
 });
 
+gulp.task("watch", ["nodemon"], () => {
+  livereload.listen();
+  gulp.watch("app/**/*.js", ["webpack:dev"]);
+  gulp.watch("app/**/*.scss", ["sass:dev"]);
+  gulp.watch("app/**/*.html", ["static:dev"]);
+});
+
 gulp.task("lint", ["lintClient", "lintServer"]);
-gulp.task("build:dev", ["webpack:dev", "static:dev"]);
+gulp.task("build:dev", ["webpack:dev", "sass:dev", "static:dev"]);
 gulp.task("test", ["karma:test", protractorTask]);
 gulp.task("default", ["lint", "test"]);
