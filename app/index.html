@@ -9,7 +9,10 @@
     <main>
       <h1>Star Trek vs. Star Wars</h1>
       <p>The Star Trek and Star Wars universes collide! Who will prevail?</p>
-      <section data-ng-controller="StarTrekCtrl as startrekctrl" data-ng-init="startrekctrl.getChars()">
+      <section
+        class="reverse-theme"
+        data-ng-controller="StarTrekCtrl as startrekctrl"
+        data-ng-init="startrekctrl.getChars()">
         <h2>Star Trek</h2>
         <h3>Add A Character:</h3>
 
@@ -38,7 +41,9 @@
         </ul>
       </section>
 
-      <section data-ng-controller="StarWarsCtrl as starwarsctrl" data-ng-init="starwarsctrl.getChars()">
+      <section
+        data-ng-controller="StarWarsCtrl as starwarsctrl"
+        data-ng-init="starwarsctrl.getChars()">
         <h2>Star Wars</h2>
         <h3>Add A Character:</h3>
 
@@ -66,7 +71,7 @@
 
         </ul>
       </section>
-      <section data-ng-controller="BattleCtrl as battlectrl">
+      <section class="reverse-theme" data-ng-controller="BattleCtrl as battlectrl">
         <h2>Battle Your Characters:</h2>
         <p>{{ battlectrl.result }}</p>
         <button id="fight" data-ng-click="battlectrl.battle()">Fight!</button>

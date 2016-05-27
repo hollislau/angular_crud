@@ -1,4 +1,47 @@
 body {
+  font-family: $font-secondary;
+  text-align: center;
+  @include colors($color-theme, $color-font-primary);
+}
+
+section {
+  padding: 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
   font-family: $font-primary;
-  background-color: $color-background;
+  text-decoration: underline;
+}
+
+form {
+  width: 210px;
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  text-align: right;
+}
+
+input {
+  border: 1px solid;
+  text-align: center;
+  margin: 2px;
+}
+
+button {
+  border-radius: 7px;
+  font-family: $font-primary;
+  @include colors($color-accent, $color-font-secondary, $color-accent);
+}
+
+button:hover {
+  cursor: pointer;
+  transition: background-color 0.1s;
+  @include colors($color-offset, $color-font-primary, $color-offset);
+}
+
+button:active {
+  background-color: darken($color-offset, 15%);
+  transition-duration: 0s;
 }

@@ -1,0 +1,12 @@
+.reverse-theme {
+  @include colors($color-background, $color-font-secondary);
+  button {
+    @include colors($color-offset, $color-font-primary, $color-offset);
+  }
+  button:hover {
+    @include colors($color-accent, $color-font-secondary, $color-accent)
+  }
+  button:active {
+    background-color: lighten($color-accent, 15%);
+  }
+}
