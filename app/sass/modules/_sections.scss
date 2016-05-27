@@ -9,4 +9,17 @@
   button:active {
     background-color: lighten($color-accent, 15%);
   }
+  .text-highlight {
+    font-size: $font-large;
+  }
+}
+
+.char-display {
+  form {
+    width: 210px;
+    margin: 0 auto;
+  }
+  button {
+    margin: 2px;
+  }
 }

@@ -10,7 +10,7 @@
       <h1>Star Trek vs. Star Wars</h1>
       <p>The Star Trek and Star Wars universes collide! Who will prevail?</p>
       <section
-        class="reverse-theme"
+        class="char-display reverse-theme"
         data-ng-controller="StarTrekCtrl as startrekctrl"
         data-ng-init="startrekctrl.getChars()">
         <h2>Star Trek</h2>
@@ -18,6 +18,7 @@
 
         <star-trek-form
           id="st-create-form"
+          class="char-form"
           data-char="startrekctrl.newChar"
           data-button-text="Create"
           data-crud-action="create">
@@ -29,6 +30,7 @@
           <star-trek-list-item data-ng-repeat="char in startrekctrl.chars" data-char="char">
 
             <star-trek-form
+              class="char-form"
               data-ng-if="char.editing"
               data-char="char"
               data-button-text="Update"
@@ -42,6 +44,7 @@
       </section>
 
       <section
+        class="char-display"
         data-ng-controller="StarWarsCtrl as starwarsctrl"
         data-ng-init="starwarsctrl.getChars()">
         <h2>Star Wars</h2>
@@ -49,6 +52,7 @@
 
         <star-wars-form
           id="sw-create-form"
+          class="char-form"
           data-char="starwarsctrl.newChar"
           data-button-text="Create"
           data-crud-action="create">
@@ -60,6 +64,7 @@
           <star-wars-list-item data-ng-repeat="char in starwarsctrl.chars" data-char="char">
 
             <star-wars-form
+              class="char-form"
               data-ng-if="char.editing"
               data-char="char"
               data-button-text="Update"
@@ -73,7 +78,7 @@
       </section>
       <section class="reverse-theme" data-ng-controller="BattleCtrl as battlectrl">
         <h2>Battle Your Characters:</h2>
-        <p>{{ battlectrl.result }}</p>
+        <p class="text-highlight">{{ battlectrl.result }}</p>
         <button id="fight" data-ng-click="battlectrl.battle()">Fight!</button>
       </section>
     </main>

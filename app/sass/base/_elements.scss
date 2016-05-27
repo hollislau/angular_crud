@@ -1,5 +1,6 @@
 body {
   font-family: $font-secondary;
+  font-size: $font-normal;
   text-align: center;
   @include colors($color-theme, $color-font-primary);
 }
@@ -13,11 +14,6 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: underline;
 }
 
-form {
-  width: 210px;
-  margin: 0 auto;
-}
-
 label {
   display: block;
   text-align: right;
@@ -26,10 +22,10 @@ label {
 input {
   border: 1px solid;
   text-align: center;
-  margin: 2px;
 }
 
 button {
+  padding: 0.2em 0.5em;
   border-radius: 7px;
   font-family: $font-primary;
   @include colors($color-accent, $color-font-secondary, $color-accent);
