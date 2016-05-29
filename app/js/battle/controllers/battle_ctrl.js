@@ -3,7 +3,7 @@ const baseUrl = require("../../config").baseUrl;
 
 module.exports = function (app) {
   app.controller("BattleCtrl", ["$http", function ($http) {
-    this.result = "";
+    this.result = "Click the button to duel!";
 
     this.battle = function () {
       $http.get(baseUrl + "/battle")

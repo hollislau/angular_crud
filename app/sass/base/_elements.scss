@@ -1,12 +1,18 @@
 body {
   font-family: $font-secondary;
   font-size: $font-normal;
+  color: $color-font-primary;
   text-align: center;
-  @include colors($color-theme, $color-font-primary);
+}
+
+header {
+  @extend %bgGradient;
 }
 
 section {
   padding: 1em;
+  background-position: center;
+  background-size: cover;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,16 +34,16 @@ button {
   padding: 0.2em 0.5em;
   border-radius: 7px;
   font-family: $font-primary;
-  @include colors($color-accent, $color-font-secondary, $color-accent);
+  @include btnColors();
 }
 
 button:hover {
   cursor: pointer;
   transition: background-color 0.1s;
-  @include colors($color-offset, $color-font-primary, $color-offset);
+  @include btnColors($color-btn-secondary, $color-font-primary);
 }
 
 button:active {
-  background-color: darken($color-offset, 15%);
+  background-color: darken($color-btn-secondary, 15%);
   transition-duration: 0s;
 }

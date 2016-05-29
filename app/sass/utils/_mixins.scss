@@ -1,5 +1,5 @@
-@mixin colors ($bgColor, $fontColor, $borderColor: null) {
-  background-color: $bgColor;
+@mixin btnColors ($btnColor: $color-btn-primary, $fontColor: $color-font-secondary) {
+  background-color: $btnColor;
   color: $fontColor;
-  border-color: $borderColor;
+  border-color: $btnColor;
 }

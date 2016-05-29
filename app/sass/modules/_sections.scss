@@ -1,16 +1,13 @@
 .reverse-theme {
-  @include colors($color-background, $color-font-secondary);
+  color: $color-font-secondary;
   button {
-    @include colors($color-offset, $color-font-primary, $color-offset);
+    @include btnColors($color-btn-secondary, $color-font-primary);
   }
   button:hover {
-    @include colors($color-accent, $color-font-secondary, $color-accent)
+    @include btnColors();
   }
   button:active {
-    background-color: lighten($color-accent, 15%);
-  }
-  .text-highlight {
-    font-size: $font-large;
+    background-color: lighten($color-btn-primary, 15%);
   }
 }
 

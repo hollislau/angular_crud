@@ -6,10 +6,13 @@
     <link rel="stylesheet" href="css/main.css">
   </head>
   <body data-ng-app="scifiApp">
-    <main>
+    <header>
       <h1>Star Trek vs. Star Wars</h1>
       <p>The Star Trek and Star Wars universes collide! Who will prevail?</p>
+    </header>
+    <main>
       <section
+        id="star-trek"
         class="char-display reverse-theme"
         data-ng-controller="StarTrekCtrl as startrekctrl"
         data-ng-init="startrekctrl.getChars()">
@@ -44,7 +47,8 @@
       </section>
 
       <section
-        class="char-display"
+        id="star-wars"
+        class="char-display reverse-theme"
         data-ng-controller="StarWarsCtrl as starwarsctrl"
         data-ng-init="starwarsctrl.getChars()">
         <h2>Star Wars</h2>
@@ -76,9 +80,11 @@
 
         </ul>
       </section>
-      <section class="reverse-theme" data-ng-controller="BattleCtrl as battlectrl">
+      <section
+        id="battle"
+        data-ng-controller="BattleCtrl as battlectrl">
         <h2>Battle Your Characters:</h2>
-        <p class="text-highlight">{{ battlectrl.result }}</p>
+        <p>{{ battlectrl.result }}</p>
         <button id="fight" data-ng-click="battlectrl.battle()">Fight!</button>
       </section>
     </main>

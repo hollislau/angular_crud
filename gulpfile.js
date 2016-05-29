@@ -15,7 +15,7 @@ const mongoDbUri = "mongodb://localhost/scifi_client_test";
 
 var lintClientFiles = ["app/**/*.js", "test/integration/**/*.js"];
 var lintServerFiles = ["gulpfile.js", "index.js", "server.js"];
-var staticFiles = ["app/**/*.html"];
+var staticFiles = ["app/**/*.html", "app/**/*.jpg"];
 var protractorFiles = ["test/integration/*_spec.js"];
 var children = [];
 var flagIndex = process.argv.indexOf("--apipath");
@@ -146,7 +146,7 @@ gulp.task("watch", ["nodemon"], () => {
   livereload.listen();
   gulp.watch("app/**/*.js", ["webpack:dev"]);
   gulp.watch("app/**/*.scss", ["sass:dev"]);
-  gulp.watch("app/**/*.html", ["static:dev"]);
+  gulp.watch(staticFiles, ["static:dev"]);
 });
 
 gulp.task("lint", ["lintClient", "lintServer"]);
