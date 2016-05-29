@@ -1,0 +1,5 @@
+@mixin btnColors ($btnColor: $color-btn-primary, $fontColor: $color-font-secondary) {
+  background-color: $btnColor;
+  color: $fontColor;
+  border-color: $btnColor;
+}

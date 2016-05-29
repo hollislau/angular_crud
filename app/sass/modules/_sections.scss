@@ -1,0 +1,22 @@
+.reverse-theme {
+  color: $color-font-secondary;
+  button {
+    @include btnColors($color-btn-secondary, $color-font-primary);
+  }
+  button:hover {
+    @include btnColors();
+  }
+  button:active {
+    background-color: lighten($color-btn-primary, 15%);
+  }
+}
+
+.char-display {
+  form {
+    width: 210px;
+    margin: 0 auto;
+  }
+  button {
+    margin: 2px;
+  }
+}
