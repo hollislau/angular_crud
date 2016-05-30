@@ -3,6 +3,7 @@ const eslint = require("gulp-eslint");
 const sass = require("gulp-sass");
 const maps = require("gulp-sourcemaps");
 const webpack = require("webpack-stream");
+require("html-loader");
 const nodemon = require("gulp-nodemon");
 const livereload = require("gulp-livereload");
 const mongoose = require("mongoose");
@@ -70,11 +71,19 @@ gulp.task("static:dev", () => {
 });
 
 gulp.task("webpack:test", () => {
-  return gulp.src("test/unit/test_entry.js")
+  return gulp.src("test/unit/entry.js")
     .pipe(webpack({
       devtool: "source-map",
       output: {
         filename: "main.js"
+      },
+      module: {
+        loaders: [
+          {
+            test: /\.html$/,
+            loader: "html"
+          }
+        ]
       }
     }))
     .pipe(gulp.dest("test"));
