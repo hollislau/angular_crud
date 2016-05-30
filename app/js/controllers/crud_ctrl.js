@@ -1,16 +1,16 @@
 const angular = require("angular");
-const handleError = require("../lib").handleError;
 const baseUrl = require("../config").baseUrl;
 
 module.exports = function (app, name, path) {
-  app.controller(name, ["$http", function ($http) {
+  app.controller(name, ["$http", "sfHandleError", function ($http, sfHandleError) {
     this.chars = [];
+    this.errors = [];
 
     this.getChars = function () {
       $http.get(baseUrl + path)
       .then((res) => {
         this.chars = res.data;
-      }, handleError.bind(this));
+      }, sfHandleError(this.errors, "Unable to retrieve characters!"));
     }.bind(this);
 
     this.createChar = function () {
@@ -18,7 +18,7 @@ module.exports = function (app, name, path) {
       .then((res) => {
         this.chars.push(res.data);
         this.newChar = null;
-      }, handleError.bind(this));
+      }, sfHandleError(this.errors, "Unable to create character!"));
     }.bind(this);
 
     this.editChar = function (char) {
@@ -27,11 +27,11 @@ module.exports = function (app, name, path) {
     };
 
     this.updateChar = function (char) {
-      delete char.backup;
       $http.put(baseUrl + path + "/" + char._id, char)
       .then(() => {
         char.editing = false;
-      }, handleError.bind(this));
+        delete char.backup;
+      }, sfHandleError(this.errors, "Unable to update character!"));
     }.bind(this);
 
     this.resetChar = function (char) {
@@ -44,7 +44,11 @@ module.exports = function (app, name, path) {
       $http.delete(baseUrl + path + "/" + char._id)
       .then(() => {
         this.chars.splice(this.chars.indexOf(char), 1);
-      }, handleError.bind(this));
+      }, sfHandleError(this.errors, "Unable to remove character!"));
     }.bind(this);
+
+    this.removeErr = function (error) {
+      this.errors.splice(this.errors.indexOf(error), 1);
+    };
   }]);
 };

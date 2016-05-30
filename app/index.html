@@ -44,6 +44,11 @@
           </star-trek-list-item>
 
         </ul>
+        <ul class="errors">
+          <li data-ng-repeat="error in startrekctrl.errors">{{ error.message }}
+            <button data-ng-click="startrekctrl.removeErr(error)">Clear</button>
+          </li>
+        </ul>
       </section>
 
       <section
@@ -79,12 +84,22 @@
           </star-wars-list-item>
 
         </ul>
+        <ul class="errors">
+          <li data-ng-repeat="error in starwarsctrl.errors">{{ error.message }}
+            <button data-ng-click="starwarsctrl.removeErr(error)">Clear</button>
+          </li>
+        </ul>
       </section>
       <section
         id="battle"
         data-ng-controller="BattleCtrl as battlectrl">
         <h2>Battle Your Characters:</h2>
         <p>{{ battlectrl.result }}</p>
+        <ul class="errors">
+          <li data-ng-repeat="error in battlectrl.errors">{{ error.message }}
+            <button data-ng-click="battlectrl.removeErr(error)">Clear</button>
+          </li>
+        </ul>
         <button id="fight" data-ng-click="battlectrl.battle()">Fight!</button>
       </section>
     </main>
