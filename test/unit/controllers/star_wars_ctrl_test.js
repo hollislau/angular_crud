@@ -54,18 +54,18 @@ describe("Star Wars controller", () => {
     });
 
     it("activates character editing", () => {
-      starwarsctrl.chars = [{ name: "Boba Fett" }];
+      starwarsctrl.chars.push({ name: "Boba Fett" });
       starwarsctrl.editChar(starwarsctrl.chars[0]);
       expect(starwarsctrl.chars[0].editing).toBe(true);
       expect(starwarsctrl.chars[0].backup).toEqual({ name: "Boba Fett" });
     });
 
     it("cancels character editing and resets character properties", () => {
-      starwarsctrl.chars = [{
+      starwarsctrl.chars.push({
         name: "Lando Calrissian",
         editing: true,
         backup: { name: "Gial Ackbar" }
-      }];
+      });
       starwarsctrl.resetChar(starwarsctrl.chars[0]);
       expect(starwarsctrl.chars[0].name).toBe("Gial Ackbar");
       expect(starwarsctrl.chars[0].editing).toBe(false);
@@ -79,12 +79,12 @@ describe("Star Wars controller", () => {
         _id: 1,
         backup: { name: "BB-8" }
       }).respond(200);
-      starwarsctrl.chars = [{
+      starwarsctrl.chars.push({
         name: "Jabba the Hutt",
         editing: true,
         _id: 1,
         backup: { name: "BB-8" }
-      }];
+      });
       starwarsctrl.updateChar(starwarsctrl.chars[0]);
       $httpBackend.flush();
       expect(starwarsctrl.chars[0].editing).toBe(false);
@@ -93,10 +93,10 @@ describe("Star Wars controller", () => {
 
     it("sends a DELETE request to remove a character", () => {
       $httpBackend.expectDELETE(baseUrl + "/1").respond(200);
-      starwarsctrl.chars = [{
+      starwarsctrl.chars.push({
         name: "Anakin Skywalker",
         _id: 1
-      }];
+      });
       starwarsctrl.removeChar(starwarsctrl.chars[0]);
       $httpBackend.flush();
       expect(starwarsctrl.chars.length).toBe(0);

@@ -54,18 +54,18 @@ describe("Star Trek controller", () => {
     });
 
     it("activates character editing", () => {
-      startrekctrl.chars = [{ name: "Reginald Barclay" }];
+      startrekctrl.chars.push({ name: "Reginald Barclay" });
       startrekctrl.editChar(startrekctrl.chars[0]);
       expect(startrekctrl.chars[0].editing).toBe(true);
       expect(startrekctrl.chars[0].backup).toEqual({ name: "Reginald Barclay" });
     });
 
     it("cancels character editing and resets character properties", () => {
-      startrekctrl.chars = [{
+      startrekctrl.chars.push({
         name: "Guinan",
         editing: true,
         backup: { name: "Natasha Yar" }
-      }];
+      });
       startrekctrl.resetChar(startrekctrl.chars[0]);
       expect(startrekctrl.chars[0].name).toBe("Natasha Yar");
       expect(startrekctrl.chars[0].editing).toBe(false);
@@ -79,12 +79,12 @@ describe("Star Trek controller", () => {
         _id: 1,
         backup: { name: "Katherine Pulaski" }
       }).respond(200);
-      startrekctrl.chars = [{
+      startrekctrl.chars.push({
         name: "Beverly Crusher",
         editing: true,
         _id: 1,
         backup: { name: "Katherine Pulaski" }
-      }];
+      });
       startrekctrl.updateChar(startrekctrl.chars[0]);
       $httpBackend.flush();
       expect(startrekctrl.chars[0].editing).toBe(false);
@@ -93,10 +93,10 @@ describe("Star Trek controller", () => {
 
     it("sends a DELETE request to remove a character", () => {
       $httpBackend.expectDELETE(baseUrl + "/1").respond(200);
-      startrekctrl.chars = [{
+      startrekctrl.chars.push({
         name: "Miles O'Brien",
         _id: 1
-      }];
+      });
       startrekctrl.removeChar(startrekctrl.chars[0]);
       $httpBackend.flush();
       expect(startrekctrl.chars.length).toBe(0);

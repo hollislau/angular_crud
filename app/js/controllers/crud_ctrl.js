@@ -3,6 +3,7 @@ const baseUrl = require("../config").baseUrl;
 
 module.exports = function (app, name, path) {
   app.controller(name, ["sfResource", function (Resource) {
+    var remote;
     var options = {
       errMsgs: {
         getAll: "Unable to retrieve characters!",
@@ -14,7 +15,7 @@ module.exports = function (app, name, path) {
 
     this.chars = [];
     this.errors = [];
-    var remote = new Resource(this.chars, this.errors, baseUrl + path, options);
+    remote = new Resource(this.chars, this.errors, baseUrl + path, options);
 
     this.getChars = remote.getAll.bind(remote);
 
