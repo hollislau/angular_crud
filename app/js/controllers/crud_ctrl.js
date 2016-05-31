@@ -49,6 +49,6 @@ module.exports = function (app, name, path) {
 
     this.removeErr = function (error) {
       this.errors.splice(this.errors.indexOf(error), 1);
-    };
+    }.bind(this);
   }]);
 };

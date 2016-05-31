@@ -14,6 +14,6 @@ module.exports = function (app) {
 
     this.removeErr = function (error) {
       this.errors.splice(this.errors.indexOf(error), 1);
-    };
+    }.bind(this);
   }]);
 };
