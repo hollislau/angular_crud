@@ -11,7 +11,7 @@ describe("Error handling service", () => {
   });
 
   it("returns a function", () => {
-    expect(typeof sfHandleError()).toBe("function");
+    expect(typeof sfHandleError).toBe("function");
   });
 
   it("adds an error to the errors array", () => {
