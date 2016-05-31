@@ -38,18 +38,21 @@ describe("Star Trek controller", () => {
       $httpBackend.expectGET(baseUrl).respond(200, [{ name: "Geordi La Forge" }]);
       startrekctrl.getChars();
       $httpBackend.flush();
+      expect(startrekctrl.errors.length).toBe(0);
       expect(startrekctrl.chars.length).toBe(1);
       expect(startrekctrl.chars[0].name).toBe("Geordi La Forge");
     });
 
     it("sends a POST request to add a character", () => {
       $httpBackend.expectPOST(baseUrl, { name: "Wesley Crusher" })
-        .respond(200, { name: "Wesley Crusher" });
+        .respond(200, { name: "Wes Crusher", _id: 1 });
       expect(startrekctrl.chars.length).toBe(0);
       startrekctrl.newChar = { name: "Wesley Crusher" };
       startrekctrl.createChar();
       $httpBackend.flush();
-      expect(startrekctrl.chars[0].name).toBe("Wesley Crusher");
+      expect(startrekctrl.errors.length).toBe(0);
+      expect(startrekctrl.chars[0].name).toBe("Wes Crusher");
+      expect(startrekctrl.chars[0]._id).toBe(1);
       expect(startrekctrl.newChar).toBeNull();
     });
 
@@ -87,6 +90,7 @@ describe("Star Trek controller", () => {
       });
       startrekctrl.updateChar(startrekctrl.chars[0]);
       $httpBackend.flush();
+      expect(startrekctrl.errors.length).toBe(0);
       expect(startrekctrl.chars[0].editing).toBe(false);
       expect(startrekctrl.chars[0].backup).toBeUndefined();
     });
@@ -99,6 +103,7 @@ describe("Star Trek controller", () => {
       });
       startrekctrl.removeChar(startrekctrl.chars[0]);
       $httpBackend.flush();
+      expect(startrekctrl.errors.length).toBe(0);
       expect(startrekctrl.chars.length).toBe(0);
     });
   });

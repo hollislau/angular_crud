@@ -38,18 +38,21 @@ describe("Star Wars controller", () => {
       $httpBackend.expectGET(baseUrl).respond(200, [{ name: "C-3PO" }]);
       starwarsctrl.getChars();
       $httpBackend.flush();
+      expect(starwarsctrl.errors.length).toBe(0);
       expect(starwarsctrl.chars.length).toBe(1);
       expect(starwarsctrl.chars[0].name).toBe("C-3PO");
     });
 
     it("sends a POST request to add a character", () => {
       $httpBackend.expectPOST(baseUrl, { name: "R2-D2" })
-        .respond(200, { name: "R2-D2" });
+        .respond(200, { name: "R2", _id: 1 });
       expect(starwarsctrl.chars.length).toBe(0);
       starwarsctrl.newChar = { name: "R2-D2" };
       starwarsctrl.createChar();
       $httpBackend.flush();
-      expect(starwarsctrl.chars[0].name).toBe("R2-D2");
+      expect(starwarsctrl.errors.length).toBe(0);
+      expect(starwarsctrl.chars[0].name).toBe("R2");
+      expect(starwarsctrl.chars[0]._id).toBe(1);
       expect(starwarsctrl.newChar).toBeNull();
     });
 
@@ -87,6 +90,7 @@ describe("Star Wars controller", () => {
       });
       starwarsctrl.updateChar(starwarsctrl.chars[0]);
       $httpBackend.flush();
+      expect(starwarsctrl.errors.length).toBe(0);
       expect(starwarsctrl.chars[0].editing).toBe(false);
       expect(starwarsctrl.chars[0].backup).toBeUndefined();
     });
@@ -99,6 +103,7 @@ describe("Star Wars controller", () => {
       });
       starwarsctrl.removeChar(starwarsctrl.chars[0]);
       $httpBackend.flush();
+      expect(starwarsctrl.errors.length).toBe(0);
       expect(starwarsctrl.chars.length).toBe(0);
     });
   });
