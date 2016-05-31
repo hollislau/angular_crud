@@ -25,10 +25,20 @@
   "homepage": "https://github.com/hollislau/angular_crud#readme",
   "devDependencies": {
     "angular": "^1.5.5",
+    "angular-mocks": "^1.5.5",
     "gulp": "^3.9.1",
     "gulp-eslint": "^2.0.0",
+    "gulp-livereload": "^3.8.1",
     "gulp-nodemon": "^2.0.7",
     "gulp-protractor": "^2.3.0",
+    "gulp-sass": "^2.3.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "html-loader": "^0.4.3",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "mongoose": "^4.4.17",
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
