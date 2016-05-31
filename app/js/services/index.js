@@ -1,3 +1,3 @@
 module.exports = function (app) {
-  require("./sf_error_handler")(app);
+  require("./sf_handle_error")(app);
 };

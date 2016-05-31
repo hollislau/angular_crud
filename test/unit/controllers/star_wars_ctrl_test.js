@@ -76,7 +76,8 @@ describe("Star Wars controller", () => {
       $httpBackend.expectPUT(baseUrl + "/1", {
         name: "Jabba the Hutt",
         editing: true,
-        _id: 1
+        _id: 1,
+        backup: { name: "BB-8" }
       }).respond(200);
       starwarsctrl.chars = [{
         name: "Jabba the Hutt",

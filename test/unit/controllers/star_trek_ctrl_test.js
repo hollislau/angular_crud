@@ -76,7 +76,8 @@ describe("Star Trek controller", () => {
       $httpBackend.expectPUT(baseUrl + "/1", {
         name: "Beverly Crusher",
         editing: true,
-        _id: 1
+        _id: 1,
+        backup: { name: "Katherine Pulaski" }
       }).respond(200);
       startrekctrl.chars = [{
         name: "Beverly Crusher",
