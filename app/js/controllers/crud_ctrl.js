@@ -2,23 +2,27 @@ const angular = require("angular");
 const baseUrl = require("../config").baseUrl;
 
 module.exports = function (app, name, path) {
-  app.controller(name, ["$http", "sfHandleError", function ($http, sfHandleError) {
+  app.controller(name, ["sfResource", function (Resource) {
+    var options = {
+      errMsgs: {
+        getAll: "Unable to retrieve characters!",
+        create: "Unable to create character!",
+        update: "Unable to update character!",
+        remove: "Unable to remove character!"
+      }
+    };
+
     this.chars = [];
     this.errors = [];
+    var remote = new Resource(this.chars, this.errors, baseUrl + path, options);
 
-    this.getChars = function () {
-      $http.get(baseUrl + path)
-      .then((res) => {
-        this.chars = res.data;
-      }, sfHandleError(this.errors, "Unable to retrieve characters!"));
-    }.bind(this);
+    this.getChars = remote.getAll.bind(remote);
 
     this.createChar = function () {
-      $http.post(baseUrl + path, this.newChar)
-      .then((res) => {
-        this.chars.push(res.data);
-        this.newChar = null;
-      }, sfHandleError(this.errors, "Unable to create character!"));
+      remote.create(this.newChar)
+        .then(() => {
+          this.newChar = null;
+        });
     }.bind(this);
 
     this.editChar = function (char) {
@@ -27,12 +31,14 @@ module.exports = function (app, name, path) {
     };
 
     this.updateChar = function (char) {
-      $http.put(baseUrl + path + "/" + char._id, char)
-      .then(() => {
-        char.editing = false;
-        delete char.backup;
-      }, sfHandleError(this.errors, "Unable to update character!"));
-    }.bind(this);
+      remote.update(char)
+        .then((bool) => {
+          if (bool) {
+            char.editing = false;
+            delete char.backup;
+          }
+        });
+    };
 
     this.resetChar = function (char) {
       angular.copy(char.backup, char);
@@ -40,15 +46,7 @@ module.exports = function (app, name, path) {
       delete char.backup;
     };
 
-    this.removeChar = function (char) {
-      $http.delete(baseUrl + path + "/" + char._id)
-      .then(() => {
-        this.chars.splice(this.chars.indexOf(char), 1);
-      }, sfHandleError(this.errors, "Unable to remove character!"));
-    }.bind(this);
-
-    this.removeErr = function (error) {
-      this.errors.splice(this.errors.indexOf(error), 1);
-    }.bind(this);
+    this.removeChar = remote.remove.bind(remote);
+    this.removeErr = remote.removeErr.bind(remote);
   }]);
 };
