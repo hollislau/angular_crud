@@ -40,6 +40,7 @@ describe("Battle controller", () => {
       });
       battlectrl.battle();
       $httpBackend.flush();
+      expect(battlectrl.errors.length).toBe(0);
       expect(battlectrl.result).toBe("Obi-Wan Kenobi defeats James T. Kirk with a Lightsaber!");
     });
   });
