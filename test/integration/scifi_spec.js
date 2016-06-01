@@ -44,6 +44,9 @@ describe("Scifi client", () => {
     element(by.binding("battlectrl.result")).getText().then((text) => {
       expect(text).toBe("Worf defeats Leia Organa with a Battleth!");
     });
+    element.all(by.css(".highlight")).getText().then((text) => {
+      expect(text).toEqual(["Wins: 1", "Wins: 0"]);
+    });
   });
 
   it("updates a Star Trek character", () => {
