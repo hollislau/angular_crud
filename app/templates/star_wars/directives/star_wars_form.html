@@ -1,0 +1,10 @@
+<form data-ng-submit="save(char)">
+  <label>Name <input type="text" data-ng-model="char.name"></label>
+  <label>Gender <input type="text" data-ng-model="char.gender"></label>
+  <label>Weapon <input type="text" data-ng-model="char.weapon"></label>
+  <label>Power <input type="text" data-ng-model="char.power"></label>
+  <label>Planet <input type="text" data-ng-model="char.planet"></label>
+
+  <button type="submit">{{ buttonText }}</button>
+  <ng-transclude></ng-transclude>
+</form>
