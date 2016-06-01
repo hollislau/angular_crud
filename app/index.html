@@ -17,6 +17,7 @@
         data-ng-controller="StarTrekCtrl as startrekctrl"
         data-ng-init="startrekctrl.getChars()">
         <h2>Star Trek</h2>
+        <p class="highlight">Wins: {{ startrekctrl.counter.countOne }}</p>
         <h3>Add A Character:</h3>
 
         <star-trek-form
@@ -58,6 +59,7 @@
         data-ng-controller="StarWarsCtrl as starwarsctrl"
         data-ng-init="starwarsctrl.getChars()">
         <h2>Star Wars</h2>
+        <p class="highlight">Wins: {{ starwarsctrl.counter.countTwo }}</p>
         <h3>Add A Character:</h3>
 
         <star-wars-form
