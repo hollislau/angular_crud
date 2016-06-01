@@ -1,32 +1,61 @@
 const angular = require("angular");
 
 describe("Star Wars controller", () => {
-  var $controller;
+  var starwarsctrl;
 
   beforeEach(() => {
+    var $controller;
+
     angular.mock.module("scifiApp");
     angular.mock.inject((_$controller_) => {
       $controller = _$controller_;
     });
+    starwarsctrl = $controller("StarWarsCtrl");
   });
 
   it("is a controller", () => {
-    var starwarsctrl = $controller("StarWarsCtrl");
-
     expect(typeof starwarsctrl).toBe("object");
     expect(typeof starwarsctrl.getChars).toBe("function");
   });
 
+  it("links to the counter resource", () => {
+    expect(typeof starwarsctrl.wins).toBe("object");
+    expect(starwarsctrl.wins.itemTwo).toBe(0);
+  });
+
+  it("activates character editing", () => {
+    starwarsctrl.chars.push({ name: "Boba Fett" });
+    starwarsctrl.editChar(starwarsctrl.chars[0]);
+    expect(starwarsctrl.chars[0].editing).toBe(true);
+    expect(starwarsctrl.chars[0].backup).toEqual({ name: "Boba Fett" });
+  });
+
+  it("cancels character editing and resets character properties", () => {
+    starwarsctrl.chars.push({
+      name: "Lando Calrissian",
+      editing: true,
+      backup: { name: "Gial Ackbar" }
+    });
+    starwarsctrl.resetChar(starwarsctrl.chars[0]);
+    expect(starwarsctrl.chars[0].name).toBe("Gial Ackbar");
+    expect(starwarsctrl.chars[0].editing).toBe(false);
+    expect(starwarsctrl.chars[0].backup).toBeUndefined();
+  });
+
+  it("removes error messages", () => {
+    starwarsctrl.errors.push(new Error("I have a bad feeling about this"));
+    starwarsctrl.removeErr(starwarsctrl.errors[0]);
+    expect(starwarsctrl.errors.length).toBe(0);
+  });
+
   describe("REST functionality", () => {
     var $httpBackend;
-    var starwarsctrl;
     var baseUrl = "http://localhost:3000/api/starwarschars";
 
     beforeEach(() => {
       angular.mock.inject((_$httpBackend_) => {
         $httpBackend = _$httpBackend_;
       });
-      starwarsctrl = $controller("StarWarsCtrl");
     });
 
     afterEach(() => {
@@ -54,25 +83,6 @@ describe("Star Wars controller", () => {
       expect(starwarsctrl.chars[0].name).toBe("R2");
       expect(starwarsctrl.chars[0]._id).toBe(1);
       expect(starwarsctrl.newChar).toBeNull();
-    });
-
-    it("activates character editing", () => {
-      starwarsctrl.chars.push({ name: "Boba Fett" });
-      starwarsctrl.editChar(starwarsctrl.chars[0]);
-      expect(starwarsctrl.chars[0].editing).toBe(true);
-      expect(starwarsctrl.chars[0].backup).toEqual({ name: "Boba Fett" });
-    });
-
-    it("cancels character editing and resets character properties", () => {
-      starwarsctrl.chars.push({
-        name: "Lando Calrissian",
-        editing: true,
-        backup: { name: "Gial Ackbar" }
-      });
-      starwarsctrl.resetChar(starwarsctrl.chars[0]);
-      expect(starwarsctrl.chars[0].name).toBe("Gial Ackbar");
-      expect(starwarsctrl.chars[0].editing).toBe(false);
-      expect(starwarsctrl.chars[0].backup).toBeUndefined();
     });
 
     it("sends a PUT request to update a character", () => {

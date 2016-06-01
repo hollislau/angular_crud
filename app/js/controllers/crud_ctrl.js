@@ -15,7 +15,7 @@ module.exports = function (app, name, path) {
 
     this.chars = [];
     this.errors = [];
-    this.counter = sfCounter;
+    this.wins = sfCounter.count;
     remote = new Resource(this.chars, this.errors, baseUrl + path, options);
 
     this.getChars = remote.getAll.bind(remote);

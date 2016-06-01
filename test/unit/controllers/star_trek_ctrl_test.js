@@ -1,32 +1,61 @@
 const angular = require("angular");
 
 describe("Star Trek controller", () => {
-  var $controller;
+  var startrekctrl;
 
   beforeEach(() => {
+    var $controller;
+
     angular.mock.module("scifiApp");
     angular.mock.inject((_$controller_) => {
       $controller = _$controller_;
     });
+    startrekctrl = $controller("StarTrekCtrl");
   });
 
   it("is a controller", () => {
-    var startrekctrl = $controller("StarTrekCtrl");
-
     expect(typeof startrekctrl).toBe("object");
     expect(typeof startrekctrl.getChars).toBe("function");
   });
 
+  it("links to the counter resource", () => {
+    expect(typeof startrekctrl.wins).toBe("object");
+    expect(startrekctrl.wins.itemOne).toBe(0);
+  });
+
+  it("activates character editing", () => {
+    startrekctrl.chars.push({ name: "Reginald Barclay" });
+    startrekctrl.editChar(startrekctrl.chars[0]);
+    expect(startrekctrl.chars[0].editing).toBe(true);
+    expect(startrekctrl.chars[0].backup).toEqual({ name: "Reginald Barclay" });
+  });
+
+  it("cancels character editing and resets character properties", () => {
+    startrekctrl.chars.push({
+      name: "Guinan",
+      editing: true,
+      backup: { name: "Natasha Yar" }
+    });
+    startrekctrl.resetChar(startrekctrl.chars[0]);
+    expect(startrekctrl.chars[0].name).toBe("Natasha Yar");
+    expect(startrekctrl.chars[0].editing).toBe(false);
+    expect(startrekctrl.chars[0].backup).toBeUndefined();
+  });
+
+  it("removes error messages", () => {
+    startrekctrl.errors.push(new Error("Activate self-destruct sequence"));
+    startrekctrl.removeErr(startrekctrl.errors[0]);
+    expect(startrekctrl.errors.length).toBe(0);
+  });
+
   describe("REST functionality", () => {
     var $httpBackend;
-    var startrekctrl;
     var baseUrl = "http://localhost:3000/api/startrekchars";
 
     beforeEach(() => {
       angular.mock.inject((_$httpBackend_) => {
         $httpBackend = _$httpBackend_;
       });
-      startrekctrl = $controller("StarTrekCtrl");
     });
 
     afterEach(() => {
@@ -54,25 +83,6 @@ describe("Star Trek controller", () => {
       expect(startrekctrl.chars[0].name).toBe("Wes Crusher");
       expect(startrekctrl.chars[0]._id).toBe(1);
       expect(startrekctrl.newChar).toBeNull();
-    });
-
-    it("activates character editing", () => {
-      startrekctrl.chars.push({ name: "Reginald Barclay" });
-      startrekctrl.editChar(startrekctrl.chars[0]);
-      expect(startrekctrl.chars[0].editing).toBe(true);
-      expect(startrekctrl.chars[0].backup).toEqual({ name: "Reginald Barclay" });
-    });
-
-    it("cancels character editing and resets character properties", () => {
-      startrekctrl.chars.push({
-        name: "Guinan",
-        editing: true,
-        backup: { name: "Natasha Yar" }
-      });
-      startrekctrl.resetChar(startrekctrl.chars[0]);
-      expect(startrekctrl.chars[0].name).toBe("Natasha Yar");
-      expect(startrekctrl.chars[0].editing).toBe(false);
-      expect(startrekctrl.chars[0].backup).toBeUndefined();
     });
 
     it("sends a PUT request to update a character", () => {

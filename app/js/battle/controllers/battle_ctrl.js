@@ -13,9 +13,9 @@ module.exports = function (app) {
           this.result = res.data.msg;
           if (res.data.winner) {
             if (res.data.winner.ship) {
-              return this.counter.addCount("countOne");
+              return this.counter.addCount("itemOne");
             }
-            this.counter.addCount("countTwo");
+            this.counter.addCount("itemTwo");
           }
         }, sfHandleError(this.errors, "Unable to retrieve battle result!"));
       }.bind(this);
