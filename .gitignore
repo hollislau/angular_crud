@@ -41,6 +41,9 @@ Thumbs.db
 node_modules
 test/data
 build
+db
 
 # Files #
 #########
+test/main.js
+test/main.js.map
