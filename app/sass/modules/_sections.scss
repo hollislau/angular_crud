@@ -1,13 +1,7 @@
 .reverse-theme {
   color: $color-font-secondary;
   button {
-    @include btnColors($color-btn-secondary, $color-font-primary);
-  }
-  button:hover {
-    @include btnColors();
-  }
-  button:active {
-    background-color: lighten($color-btn-primary, 15%);
+    @include setBtnColors($reverse: true);
   }
 }
 

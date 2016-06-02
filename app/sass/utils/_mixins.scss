@@ -1,5 +1,36 @@
-@mixin btnColors ($btnColor: $color-btn-primary, $fontColor: $color-font-secondary) {
-  background-color: $btnColor;
-  color: $fontColor;
-  border-color: $btnColor;
+@mixin btnColors($bgPrimary, $bgSecondary, $fontPrimary, $fontSecondary) {
+  background-color: $bgPrimary;
+  color: $fontPrimary;
+  border-color: $bgPrimary;
+  &:hover {
+    background-color: $bgSecondary;
+    color: $fontSecondary;
+    border-color: $bgSecondary;
+  }
+  &:active {
+    background-color: tweakColor($bgSecondary);
+  }
+}
+
+@mixin setBtnColors($bgPrimary: $color-btn-primary, $bgSecondary: $color-btn-secondary, $fontPrimary: $color-font-secondary, $fontSecondary: $color-font-primary, $reverse: false) {
+  @if type-of($bgPrimary) != color {
+    @error "#{$bgPrimary} is not a color!";
+  }
+  @if type-of($bgSecondary) != color {
+    @error "#{$bgSecondary} is not a color!";
+  }
+  @if type-of($fontPrimary) != color {
+    @error "#{$fontPrimary} is not a color!";
+  }
+  @if type-of($fontSecondary) != color {
+    @error "#{$fontSecondary} is not a color!";
+  }
+  @if type-of($reverse) != bool {
+    @error "#{$reverse} is not a boolean!";
+  }
+  @if $reverse {
+    @include btnColors($bgSecondary, $bgPrimary, $fontSecondary, $fontPrimary);
+  } @else if {
+    @include btnColors($bgPrimary, $bgSecondary, $fontPrimary, $fontSecondary);
+  }
 }

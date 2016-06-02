@@ -1,0 +1,7 @@
+@function tweakColor($bgColor) {
+  @if lightness($bgColor) < 50% {
+    @return lighten($bgColor, 15%);
+  } @else {
+    @return darken($bgColor, 15%);
+  }
+}

@@ -34,16 +34,12 @@ button {
   padding: 0.2em 0.5em;
   border-radius: 7px;
   font-family: $font-primary;
-  @include btnColors();
-}
-
-button:hover {
-  cursor: pointer;
-  transition: background-color 0.1s;
-  @include btnColors($color-btn-secondary, $color-font-primary);
-}
-
-button:active {
-  background-color: darken($color-btn-secondary, 15%);
-  transition-duration: 0s;
+  @include setBtnColors();
+  &:hover {
+    cursor: pointer;
+    transition: background-color 0.1s;
+  }
+  &:active {
+    transition-duration: 0s;
+  }
 }
