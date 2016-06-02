@@ -1,3 +1,8 @@
-require(__dirname + "/star_trek_ctrl");
-require(__dirname + "/star_wars_ctrl");
-require(__dirname + "/battle_ctrl");
+const angular = require("angular");
+const scifiApp = angular.module("scifiApp", []);
+
+require("./directives").errorListItem(scifiApp);
+require("./services")(scifiApp);
+require("./star_trek")(scifiApp);
+require("./star_wars")(scifiApp);
+require("./battle")(scifiApp);
