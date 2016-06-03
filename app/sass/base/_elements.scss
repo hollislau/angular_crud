@@ -1,0 +1,45 @@
+body {
+  font-family: $font-secondary;
+  font-size: $font-normal;
+  color: $color-font-primary;
+  text-align: center;
+}
+
+header {
+  @extend %bgGradient;
+}
+
+section {
+  padding: 1em;
+  background-position: center;
+  background-size: cover;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-primary;
+  text-decoration: underline;
+}
+
+label {
+  display: block;
+  text-align: right;
+}
+
+input {
+  border: 1px solid;
+  text-align: center;
+}
+
+button {
+  padding: 0.2em 0.5em;
+  border-radius: 7px;
+  font-family: $font-primary;
+  @include setBtnColors();
+  &:hover {
+    cursor: pointer;
+    transition: background-color 0.1s;
+  }
+  &:active {
+    transition-duration: 0s;
+  }
+}
